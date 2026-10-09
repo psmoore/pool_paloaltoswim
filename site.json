@@ -1,0 +1,15 @@
+{
+  "name": "Palo Alto Swim & Sport",
+  "city": "the City of Palo Alto",
+  "site": "https://paloaltoswim.com",
+  "home": "index.html",
+  "logo": "https://paloaltoswim.com/wp-content/uploads/2017/01/PaloAlto-Logo-01_smaller.png",
+  "footer": "info@paloaltoswim.com &nbsp;·&nbsp; Rinconada Pool, 777 Embarcadero Road, Palo Alto, CA 94301 &nbsp;·&nbsp; 650-463-4914",
+  "origin": { "index.html": "https://paloaltoswim.com/pool-schedule/" },
+  "topbar": [["What's Happening?", "https://paloaltoswim.com/whats-happening/"], ["Careers", "https://paloaltoswim.com/careers/"], ["Air Quality", "https://paloaltoswim.com/air-quality/"], ["Pool Schedule", "index.html"]],
+  "nav": [["Hello,", "Welcome", "/"], ["Try our", "Swim School", "/swim-school/kids-swim-lessons/"], ["Join Summer", "Camps", "/camps/summer-camps/"], ["Community", "Swimming", "/community-swimming/lap-swim/"], ["Coaching &", "Clinics", "/"], ["Get in", "Contact", "/"]],
+  "embeds": {
+    "week": ["ug9U0ohAHtSo8259xlEyhf", "Rinconada Pool: the week"],
+    "lanes": ["rFMdA1KaDOOAHVvK4VL2bb", "Rinconada Pool: today, lane by lane"]
+  }
+}

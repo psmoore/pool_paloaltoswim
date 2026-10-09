@@ -1,0 +1,48 @@
+/* Menlo Swim & Sport / Palo Alto Swim & Sport — replica styling.
+   Their sites (WordPress) put a deep navy header rgb(6,32,46) under a small yellow link bar,
+   with two-line navigation items (a small italic word over an uppercase one) in Myriad Pro.
+   Source Sans 3 stands in for Myriad. */
+:root{ --navy:#06202e; --yellow:#f2c418; --blue:#2a8fd3; --ink:#222; --head:#06202e; --muted:#5d6670; --line:#e2e6ea; --wash:#f4f7f9 }
+*{ box-sizing:border-box }
+body{ margin:0; color:var(--ink); background:#fff; font:16px/1.6 "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif }
+a{ color:var(--blue) }
+.preview-note{ background:#111820; color:#e8eef5; font-size:13px; line-height:1.5; padding:10px 16px; text-align:center }
+.preview-note b{ color:var(--yellow) } .preview-note a{ color:#fff }
+header.site{ background:var(--navy); display:flex; align-items:flex-start; gap:24px; padding:0 0 14px 22px }
+header.site .logo img{ width:118px; height:auto; display:block; margin-top:12px }
+header.site .right{ flex:1; min-width:0 }
+nav.top{ background:var(--yellow); display:flex; flex-wrap:wrap; justify-content:flex-end; gap:4px 18px; padding:10px 22px }
+nav.top a{ color:var(--navy); text-decoration:none; text-transform:uppercase; font-size:12px; letter-spacing:.06em; font-weight:600 }
+nav.top a.on{ text-decoration:underline }
+nav.main{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px 34px; padding:16px 22px 0 }
+nav.main a{ color:#fff; text-decoration:none; text-transform:uppercase; font-weight:700; font-size:14px; text-align:center; line-height:1.15 }
+nav.main small{ display:block; text-transform:none; font-style:italic; font-weight:400; font-size:11.5px; opacity:.8 }
+main{ max-width:1100px; margin:0 auto; padding:34px 16px 46px }
+h1{ color:var(--head); font-weight:400; font-size:40px; margin:0 0 12px }
+h2{ color:var(--head); font-size:24px; margin:30px 0 8px }
+.note{ font-weight:700 }
+table.hours{ border-collapse:collapse; margin:6px 0 16px }
+table.hours td{ padding:3px 22px 3px 0; vertical-align:top }
+.facts{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin:12px 0 }
+.facts div{ background:var(--wash); border-left:4px solid var(--blue); padding:10px 14px; font-size:15px }
+.facts b{ display:block; color:var(--head) }
+.cal-head{ display:flex; align-items:center; gap:10px; margin-top:28px }
+.cal-head h2{ margin:0 }
+.live{ background:var(--yellow); color:var(--navy); font-size:11px; font-weight:700; letter-spacing:.05em; border-radius:3px; padding:2px 8px; text-transform:uppercase }
+.sub{ color:var(--muted); margin:6px 0 10px }
+.frame{ border:1px solid var(--line); height:680px }
+.frame iframe{ width:100%; height:100%; border:0; display:block }
+.finding{ background:#fff8dc; border-left:5px solid var(--yellow); padding:12px 16px; margin:20px 0; font-size:15px }
+.finding ul{ margin:6px 0 0; padding-left:20px }
+footer.site{ background:var(--navy); color:#d6e0e8; text-align:center; font-size:14px; padding:22px 16px }
+footer.site b{ color:#fff }
+footer.site a{ color:#fff }
+footer.site .fine{ max-width:900px; margin:12px auto 0; font-size:12px; color:#9fb3c2 }
+@media (max-width:760px){
+  header.site{ flex-direction:column; padding:0 0 12px; align-items:center }
+  header.site .right{ width:100% }
+  nav.top{ justify-content:center }
+  nav.main{ gap:10px 18px }
+  h1{ font-size:32px }
+  .frame{ height:600px }
+}
