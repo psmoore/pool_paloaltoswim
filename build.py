@@ -83,6 +83,7 @@ def shell(slug, title, description, body):
     <a href="{origin}" {EXT}>{site.replace("https://", "")}</a>.</p>
 </footer>
 
+<script src="live.js" defer></script>
 </body>
 </html>
 """

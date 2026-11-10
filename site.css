@@ -46,3 +46,5 @@ footer.site .fine{ max-width:900px; margin:12px auto 0; font-size:12px; color:#9
   h1{ font-size:32px }
   .frame{ height:600px }
 }
+.hours-live .hours tr.is-today td{ font-weight:700 }
+.hours-live .muted, .finding .muted{ color:var(--muted) }
