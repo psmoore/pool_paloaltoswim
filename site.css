@@ -48,3 +48,10 @@ footer.site .fine{ max-width:900px; margin:12px auto 0; font-size:12px; color:#9
 }
 .hours-live .hours tr.is-today td{ font-weight:700 }
 .hours-live .muted, .finding .muted{ color:var(--muted) }
+/* Register: each program, what it offers and its prices, read live (live.js, data-live="register"). */
+.reg-list{ list-style:none; padding:0; margin:12px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px }
+.reg-list > li{ background:var(--wash); border-left:4px solid var(--blue); padding:12px 16px }
+.reg-name{ font-weight:700; font-size:17px; color:var(--head) }
+.reg-list ul{ list-style:none; padding:0; margin:6px 0 0; font-size:15px }
+.reg-list ul li{ display:flex; justify-content:space-between; gap:12px; padding:2px 0 }
+.reg-list ul li span:last-child{ white-space:nowrap; font-variant-numeric:tabular-nums }

@@ -9,6 +9,9 @@
 //
 // Each takes data-view (the share token) and optional data-groups (group ids, "|"-separated; a group matches its
 // subgroups too).
+//
+//   data-live="register"  each program in data-groups with what it offers and its prices, linking to its Pool Relay
+//                         registration page; no data-view needed. A program with nothing open is left out.
 (function () {
   const TZ = "America/Los_Angeles";
   const API = "https://www.poolrelay.com/api/public/views/";
@@ -94,7 +97,34 @@
     },
   };
 
+  // ── Registration: what each program offers, read live from its passes ────
+  const REG = "https://www.poolrelay.com/register/";
+  const money = (c) => `$${(c / 100).toLocaleString("en-US", { minimumFractionDigits: c % 100 ? 2 : 0, maximumFractionDigits: 2 })}`;
+  const priceOf = (o) => {
+    const p = o.rates && o.rates.length ? o.rates.map((r) => r.priceCents) : [o.priceCents];
+    const lo = Math.min(...p), hi = Math.max(...p);
+    const per = o.kind === "monthly membership" ? " a month" : "";
+    return hi === 0 ? "Free" : lo === hi ? money(hi) + per : `${lo ? money(lo) : "Free"}–${money(hi)}${per}`;
+  };
+  function register(el) {
+    const ids = (el.dataset.groups || "").split("|").filter(Boolean);
+    return Promise.all(ids.map((id) => fetch(`${API}group/passes/${encodeURIComponent(id)}`)
+      .then((r) => (r.ok ? r.json() : null)).catch(() => null)))
+      .then((list) => {
+        const rows = list.filter((g) => g && g.offers.some((o) => o.open || o.canWaitlist)).map((g) =>
+          `<li><a class="reg-name" href="${REG}${encodeURIComponent(g.groupId)}" target="_blank" rel="noopener">${esc(g.groupName)}</a>` +
+          `<ul>${g.offers.filter((o) => o.open || o.canWaitlist).map((o) => `<li><span>${esc(o.label)}</span><span>${esc(priceOf(o))}</span></li>`).join("")}</ul></li>`);
+        if (!rows.length) throw new Error("none");
+        el.innerHTML = `<ul class="reg-list">${rows.join("")}</ul>`;
+        el.classList.add("ready");
+      });
+  }
+
   document.querySelectorAll("[data-live]").forEach((el) => {
+    if (el.dataset.live === "register") {
+      register(el).catch(() => { el.innerHTML = `<span class="muted">Registration could not be loaded right now.</span>`; });
+      return;
+    }
     const fn = render[el.dataset.live];
     if (!fn) return;
     feed(el.dataset.view).then((list) => { el.innerHTML = fn(pick(list, el), el); el.classList.add("ready"); })
