@@ -111,7 +111,7 @@
   const SITE = "https://www.poolrelay.com";
   const passLine = (o) => {
     const where = o.covers && o.covers.length > 1
-      ? ` <small class="reg-where">${esc(o.covers.map((c) => c.split(" ▸ ")[0].replace(/ Programs$/, "")).join(" & "))}</small>` : "";
+      ? ` <small class="reg-where">${esc([...new Set(o.covers.map((c) => c.split(" ▸ ")[0].replace(/ Programs$/, "")))].join(" & "))}</small>` : "";
     const label = o.page ? `<a href="${SITE}${esc(o.page)}" target="_blank" rel="noopener">${esc(o.label)}</a>` : esc(o.label);
     return `<li><span>${label}${where}</span><span>${esc(priceOf(o))}</span></li>`;
   };
@@ -120,9 +120,12 @@
     return Promise.all(ids.map((id) => fetch(`${API}group/passes/${encodeURIComponent(id)}`)
       .then((r) => (r.ok ? r.json() : null)).catch(() => null)))
       .then((list) => {
-        const rows = list.filter((g) => g && g.offers.some((o) => o.open || o.canWaitlist)).map((g) =>
+        // A pass good at several programs is listed once, under the first of them.
+        const shown = new Set();
+        const open = (g) => g.offers.filter((o) => (o.open || o.canWaitlist) && !shown.has(o.id) && shown.add(o.id));
+        const rows = list.filter(Boolean).map((g) => ({ g, offers: open(g) })).filter((x) => x.offers.length).map(({ g, offers }) =>
           `<li><a class="reg-name" href="${REG}${encodeURIComponent(g.groupId)}" target="_blank" rel="noopener">${esc(g.groupName)}</a>` +
-          `<ul>${g.offers.filter((o) => o.open || o.canWaitlist).map(passLine).join("")}</ul></li>`);
+          `<ul>${offers.map(passLine).join("")}</ul></li>`);
         if (!rows.length) throw new Error("none");
         el.innerHTML = `<ul class="reg-list">${rows.join("")}</ul>`;
         el.classList.add("ready");
