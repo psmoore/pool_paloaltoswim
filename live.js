@@ -10,8 +10,9 @@
 // Each takes data-view (the share token) and optional data-groups (group ids, "|"-separated; a group matches its
 // subgroups too).
 //
-//   data-live="register"  each program in data-groups with what it offers and its prices, linking to its Pool Relay
-//                         registration page; no data-view needed. A program with nothing open is left out.
+//   data-live="register"  each program in data-groups with what it offers and its prices, each pass linking to its Pool Relay
+//                         page (a pass good at both pools has one page, with both pools' schedules); program names link to the group's
+//                         page; no data-view needed. A program with nothing open is left out.
 (function () {
   const TZ = "America/Los_Angeles";
   const API = "https://www.poolrelay.com/api/public/views/";
@@ -106,6 +107,14 @@
     const per = o.kind === "monthly membership" ? " a month" : "";
     return hi === 0 ? "Free" : lo === hi ? money(hi) + per : `${lo ? money(lo) : "Free"}–${money(hi)}${per}`;
   };
+  // A pass good at several pools has one page of its own, whose calendar shows them all.
+  const SITE = "https://www.poolrelay.com";
+  const passLine = (o) => {
+    const where = o.covers && o.covers.length > 1
+      ? ` <small class="reg-where">${esc(o.covers.map((c) => c.split(" ▸ ")[0].replace(/ Programs$/, "")).join(" & "))}</small>` : "";
+    const label = o.page ? `<a href="${SITE}${esc(o.page)}" target="_blank" rel="noopener">${esc(o.label)}</a>` : esc(o.label);
+    return `<li><span>${label}${where}</span><span>${esc(priceOf(o))}</span></li>`;
+  };
   function register(el) {
     const ids = (el.dataset.groups || "").split("|").filter(Boolean);
     return Promise.all(ids.map((id) => fetch(`${API}group/passes/${encodeURIComponent(id)}`)
@@ -113,7 +122,7 @@
       .then((list) => {
         const rows = list.filter((g) => g && g.offers.some((o) => o.open || o.canWaitlist)).map((g) =>
           `<li><a class="reg-name" href="${REG}${encodeURIComponent(g.groupId)}" target="_blank" rel="noopener">${esc(g.groupName)}</a>` +
-          `<ul>${g.offers.filter((o) => o.open || o.canWaitlist).map((o) => `<li><span>${esc(o.label)}</span><span>${esc(priceOf(o))}</span></li>`).join("")}</ul></li>`);
+          `<ul>${g.offers.filter((o) => o.open || o.canWaitlist).map(passLine).join("")}</ul></li>`);
         if (!rows.length) throw new Error("none");
         el.innerHTML = `<ul class="reg-list">${rows.join("")}</ul>`;
         el.classList.add("ready");
